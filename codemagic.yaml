@@ -1,0 +1,19 @@
+workflows:
+  android-build:
+    name: Flutter Android Build
+    instance_type: linux_x2
+    environment:
+      flutter: 3.22.3
+      java: 17
+    scripts:
+      - name: Setup Flutter project
+        script: |
+          # Regenerate missing Android scaffold files (gradlew, gradle wrapper, etc.)
+          flutter create --project-name myappdds --org com.app --platforms android .
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Build
+        script: flutter build apk --release
+    artifacts:
+      - build/app/outputs/**/*.apk
+      - build/app/outputs/**/*.aab
